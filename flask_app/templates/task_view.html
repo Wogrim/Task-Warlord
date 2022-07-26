@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task View</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .max-vh-50 {
+            max-height: 50vh;
+        }
+
+        .bg-theme1 {
+            background-color: lightsteelblue;
+        }
+
+        .bg-lightred {
+            background-color: #f8cecc;
+        }
+
+        .bg-lightyellow {
+            background-color: #fff2cc;
+        }
+
+        .bg-lightgreen {
+            background-color: #d5e8d4;
+        }
+
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        td div {
+            height: 10px;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a :hover {
+            color: black;
+        }
+
+        div.rounded-circle.bg-danger {
+            border: 1px solid black;
+            height: 14px;
+            width: 14px;
+            float: right;
+        }
+    </style>
+</head>
+
+<body class="bg-theme1">
+    <div class="col-11 mx-auto d-flex justify-content-between align-items-center py-3">
+        <ul class="list-inline mb-0">
+            <li class="list-inline-item">
+                <!-- current project name -->
+                <a href="#">
+                    <h2>Cool Website 1</h2>
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <h2>\</h2>
+            </li>
+            <li class="list-inline-item">
+                <!-- current version name -->
+                <a href="#">
+                    <h2>V5</h2>
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <h2>\</h2>
+            </li>
+            <li class="list-inline-item">
+                <!-- current task group name -->
+                <a href="#">
+                    <h2>Database & Models</h2>
+                </a>
+            </li>
+        </ul>
+        <ul class="list-inline mb-0">
+            <li class="list-inline-item">
+                <!-- logout link -->
+                <a href="#" class="btn btn-secondary">Logout</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-11 mx-auto">
+        <div style="width:600px;">
+            <div class="border border-2 border-danger bg-lightred px-1 pt-1 text-center">
+                <form action="#" class="m-0">
+                    <!-- actual task title here -->
+                    <input type="text" name="title" placeholder="short description of this task (title)"
+                        value="short description of a high-priority task" class="w-100">
+                    <div class="d-flex">
+                        <div class="col">
+                            <label for="assigned">assigned to:</label>
+                            <select name="assigned" id="assigned">
+                                <option value="0">(none)</option>
+                                <!-- Actual project participants here -->
+                                <option value="0">You</option>
+                                <option value="0" selected>James</option>
+                                <option value="0">Mark</option>
+                                <option value="0">Francesca</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select name="priority" class="">
+                                <option value="4" selected>Top Priority</option>
+                                <option value="3">High Priority</option>
+                                <option value="2">Medium Priority</option>
+                                <option value="1">Low Priority</option>
+                            </select>
+                            <!-- if top priority, red circle icon here -->
+                            <div class="rounded-circle bg-danger"></div>
+                        </div>
+                    </div>
+                    <div class="border-top border-danger border-2">
+                        <!-- Actual task description here -->
+                        <textarea name="description" class="w-100" style="height: 50vh;"
+                            placeholder="extensive description of this task here">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam maxime eius quidem, ut molestias dolor, culpa velit animi, aliquid repellendus ipsum? Quam voluptates quibusdam ut magni, officiis qui esse sunt non! Accusamus minima quia corrupti! Voluptatum sapiente, illo dicta aspernatur porro sint modi dolor beatae soluta vero ullam sequi enim, incidunt sed dolorem accusamus perspiciatis ducimus suscipit. Saepe, modi quasi similique eius illum placeat fuga quia consectetur, iste mollitia voluptatum itaque dolorem distinctio ullam ipsum corrupti obcaecati laudantium molestias quibusdam voluptatibus laborum. Voluptate, sapiente possimus ratione repellendus aliquid facere, ducimus sint dolorem fugit voluptatem consequatur culpa doloremque non. Est, aperiam recusandae. Recusandae consequuntur distinctio libero dignissimos? Illo iure quidem deleniti officiis? Amet quidem magni voluptate quisquam earum, facilis, tenetur repudiandae libero, labore reiciendis ratione tempore aliquid! Maxime possimus quam ut, modi voluptatum neque expedita eum minus perspiciatis hic iste nulla debitis omnis iure animi? Suscipit velit tenetur obcaecati quisquam at necessitatibus voluptates, recusandae cum, nam omnis deserunt unde consequatur. Facere veniam quaerat quod, mollitia quae eius sit sapiente doloribus tempora impedit dolore necessitatibus optio rem a in nemo odio reiciendis minus, fuga fugit quisquam! Perferendis ratione officiis ipsa suscipit quibusdam voluptate velit quo quisquam in eligendi quos magnam non optio vero molestias laboriosam amet repudiandae eius a, corporis earum ab molestiae, expedita ea? Eligendi nemo, aperiam architecto, officia nobis natus iste facilis eveniet sequi a vero, temporibus minima. Perspiciatis cum quibusdam aliquam? Ducimus reiciendis perferendis, voluptates libero nostrum excepturi velit quisquam tenetur obcaecati possimus culpa doloribus harum quidem error, vitae id architecto debitis inventore, dignissimos dolores incidunt praesentium perspiciatis. Nihil aperiam eaque velit non aut, cumque natus beatae minima ipsam, quam, deserunt architecto! Harum, inventore impedit, incidunt aspernatur molestias ratione fuga, corrupti a odit dolorem eveniet illum. Laborum sint dolorum rem harum maiores modi officia ex eligendi est quas maxime quae, nihil non quia inventore. Amet a deserunt cumque dolorem quos temporibus, fuga nulla nihil accusamus porro et quae enim dolorum aut expedita animi, perspiciatis fugiat quo totam quaerat doloremque praesentium provident ipsam ad! Totam ipsum dignissimos nesciunt eaque maxime, corporis inventore animi adipisci reprehenderit, ut aut sit voluptas dolore error omnis culpa doloribus voluptatum. Fugit delectus tempora iure illum! Molestiae temporibus aliquid quae repellat cum labore maiores corrupti! Debitis, dolore ut! Dolorem aspernatur, quasi perspiciatis, alias blanditiis dignissimos magnam labore facilis modi eaque nam eum ipsum, vitae reiciendis tenetur commodi a earum asperiores! Accusantium nisi neque adipisci corporis eius consectetur, itaque sapiente ullam laborum incidunt quaerat, doloribus repudiandae. Quas ad, laudantium natus fugiat cumque veritatis autem dolores maiores aliquam harum pariatur, iste amet. Sit, aut non maiores, minima tempore hic corrupti nobis commodi sapiente, amet repellat consequatur odit sequi odio sunt soluta esse exercitationem architecto possimus quod blanditiis. Quibusdam molestias illo cum nam vel laudantium sequi reprehenderit. Ipsam, ratione? Quisquam reprehenderit cum earum officiis labore officia quis, praesentium recusandae tenetur nisi, ab corrupti dolore ratione laborum ad quas vel velit ducimus qui unde! Consectetur rem inventore facere modi, officia tempora nulla non perferendis, aspernatur veniam, eius hic ex iusto.</textarea>
+                    </div>
+                    <div class="d-flex justify-content-around border-top border-danger border-2">
+                        <div class="col">
+                            <label for="status">status:</label>
+                            <!-- Actual task status selected -->
+                            <select name="status" id="status">
+                                <option value="1">To Do</option>
+                                <option value="2" selected>Implementing</option>
+                                <option value="3">Ready to Test</option>
+                                <option value="4">Testing</option>
+                                <option value="5">Completed</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="progress">progress:</label>
+                            <!-- Actual task progress here -->
+                            <input type="range" name="progress" id="progress"value="75" style="background: #6c757d">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
