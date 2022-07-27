@@ -149,19 +149,19 @@ ENGINE = InnoDB;
 -- Table `task_warlord_schema`.`projects_invite_users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `task_warlord_schema`.`projects_invite_users` (
-  `projects_id` INT NOT NULL,
-  `users_id` INT NOT NULL,
+  `project_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   `created_at` DATETIME NULL,
-  PRIMARY KEY (`projects_id`, `users_id`),
-  INDEX `fk_projects_has_users_users2_idx` (`users_id` ASC) VISIBLE,
-  INDEX `fk_projects_has_users_projects2_idx` (`projects_id` ASC) VISIBLE,
+  PRIMARY KEY (`project_id`, `user_id`),
+  INDEX `fk_projects_has_users_users2_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_projects_has_users_projects2_idx` (`project_id` ASC) VISIBLE,
   CONSTRAINT `fk_projects_has_users_projects2`
-    FOREIGN KEY (`projects_id`)
+    FOREIGN KEY (`project_id`)
     REFERENCES `task_warlord_schema`.`projects` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_projects_has_users_users2`
-    FOREIGN KEY (`users_id`)
+    FOREIGN KEY (`user_id`)
     REFERENCES `task_warlord_schema`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
