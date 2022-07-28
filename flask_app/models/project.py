@@ -26,10 +26,17 @@ class Project:
         return False
     
     @classmethod
+    def add_participant(cls,data):
+        query = "INSERT INTO users_participate_projects (project_id,user_id,created_at) VALUES (%(project_id)s,%(user_id)s,NOW());"
+        return connectToMySQL(cls.schema).query_db(query,data)
+
+    @classmethod
     def create(cls,data):
         query = "INSERT INTO projects (name,owner_user_id,created_at,updated_at) VALUES (%(name)s,%(owner_user_id)s,NOW(),NOW());"
-        #TODO: make owner a participant
-        return connectToMySQL(cls.schema).query_db(query,data)
+        project_id = connectToMySQL(cls.schema).query_db(query,data)
+        participant_data = {'project_id':project_id, 'user_id':data['owner_user_id']}
+        cls.add_participant(participant_data)
+        return project_id
     
     @classmethod
     def read_all_owned_by_user(cls,data):

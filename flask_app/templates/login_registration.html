@@ -8,23 +8,14 @@
     <title>Task Warlord</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <style>
-        .max-vh-50 {
-            max-height: 50vh;
-        }
-
-        .bg-theme1 {
-            background-color: lightsteelblue;
-        }
-    </style>
+    <link rel="stylesheet" href="{{url_for('static',filename='common.css')}}">
 </head>
 
 <body class="bg-theme1">
     <div class="col-11 mx-auto d-flex justify-content-between py-3">
         <div class="col-5">
             <h2>Registration</h2>
-            <!-- register link -->
-            <form action="#">
+            <form action="/register" method="post">
                 <div class="mb-2 input-group">
                     <label for="first_name" class="input-group-text w-50">First Name</label>
                     <input type="text" name="first_name" id="first_name" required class="form-control">
@@ -42,16 +33,28 @@
                     <input type="password" name="password" id="password" required class="form-control">
                 </div>
                 <div class="mb-2 input-group">
-                    <label for="confirm_password" class="input-group-text w-50">Confirm Password</label>
+                    <label for="confirm_password" class="input-group-text w-50">Retype Password</label>
                     <input type="password" name="confirm_password" id="confirm_password" required class="form-control">
                 </div>
-                <button type="submit" class="btn btn-primary w-50 float-end">Register</button>
+                <div class="mb-2 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary w-50">Register</button>
+                </div>
             </form>
+            {% with registration_msgs = get_flashed_messages(category_filter=['registration']) %}
+            {% if registration_msgs %}
+            <div class="bg-lightred">
+                <ul>
+                    {% for msg in registration_msgs %}
+                    <li>{{msg}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endwith %}
         </div>
         <div class="col-5">
             <h2>Login</h2>
-            <!-- login link -->
-            <form action="#">
+            <form action="/login" method="post">
                 <div class="mb-2 input-group">
                     <label for="email" class="input-group-text w-50">Email</label>
                     <input type="email" name="email" id="email" required class="form-control">
@@ -60,8 +63,21 @@
                     <label for="password" class="input-group-text w-50">Password</label>
                     <input type="password" name="password" id="password" required class="form-control">
                 </div>
-                <button type="submit" class="btn btn-success w-50 float-end">Login</button>
+                <div class="mb-2 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success w-50">Register</button>
+                </div>
             </form>
+            {% with login_msgs = get_flashed_messages(category_filter=['login']) %}
+            {% if login_msgs %}
+            <div class="bg-lightred">
+                <ul>
+                    {% for msg in login_msgs %}
+                    <li>{{msg}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endwith %}
         </div>
     </div>
 </body>

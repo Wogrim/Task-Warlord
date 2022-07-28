@@ -4,7 +4,7 @@ from flask_app.controllers import users
 from flask_app.controllers import projects
 from flask_app.controllers import versions
 from flask_app.controllers import task_groups
-from flask_app.controllers import tasks
+# from flask_app.controllers import tasks
 
 
 

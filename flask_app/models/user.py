@@ -35,6 +35,15 @@ class User:
         return False
     
     @classmethod
+    def read_all_participants_of_project(cls,data):
+        query = "SELECT * FROM users JOIN users_participate_projects ON users.id=users_participate_projects.user_id WHERE project_id=%(project_id)s;"
+        results = connectToMySQL(cls.schema).query_db(query,data)
+        users = []
+        for result in results:
+            users.append(cls(result))
+        return users
+
+    @classmethod
     def create(cls,data):
         query = "INSERT INTO users (first_name,last_name,email,password,created_at,updated_at) VALUES (%(first_name)s,%(last_name)s,%(email)s,%(password)s,NOW(),NOW());"
         return connectToMySQL(cls.schema).query_db(query,data)
@@ -45,23 +54,23 @@ class User:
         is_valid = True
         if len(data['first_name']) < 2 or len(data['first_name']) > 45:
             is_valid = False
-            flash("first name must be 2 to 45 characters long")
+            flash("first name must be 2 to 45 characters long","registration")
         if len(data['last_name']) < 2 or len(data['last_name']) > 45:
             is_valid = False
-            flash("last name must be 2 to 45 characters long")
+            flash("last name must be 2 to 45 characters long","registration")
         if cls.read_one_by_email(data):
             is_valid = False
-            flash("there is already an account for this email")
+            flash("there is already an account for this email","registration")
         if not EMAIL_REGEX.match(data['email']):
             is_valid = False
-            flash("incorrect email format")
+            flash("incorrect email format","registration")
         if len(data['email']) > 255:
             is_valid = False
-            flash("email too long (255 characters max)")
+            flash("email too long (255 characters max)","registration")
         if not data['password'] == data['confirm_password']:
             is_valid = False
-            flash("passwords do not match")
-        if not len(data['password']) < 8:
+            flash("passwords do not match","registration")
+        if len(data['password']) < 8:
             is_valid = False
-            flash("password must be at least 8 characters long")
+            flash("password must be at least 8 characters long","registration")
         return is_valid

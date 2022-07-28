@@ -1,0 +1,44 @@
+/* reset */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* colors */
+
+.bg-theme1 {
+    background-color: lightsteelblue;
+}
+
+.bg-lightred {
+    background-color: #f8cecc;
+}
+
+.bg-lightyellow {
+    background-color: #fff2cc;
+}
+
+.bg-lightgreen {
+    background-color: #d5e8d4;
+}
+
+/* main navigation links */
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a :hover {
+    color: black;
+}
+
+/* top priority circle */
+
+div.rounded-circle.bg-danger {
+    border: 1px solid black;
+    height: 14px;
+    width: 14px;
+    float: right;
+}

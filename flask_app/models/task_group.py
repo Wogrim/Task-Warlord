@@ -1,6 +1,8 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from datetime import date
 from flask import flash
+from flask_app.models.version import Version
+from flask_app.models.project import Project
 
 class Task_Group:
     schema = "task_warlord_schema"
@@ -15,6 +17,7 @@ class Task_Group:
         self.color = data['color']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.version = 0
     
     @classmethod
     def read_all_in_version(cls,data):
@@ -31,6 +34,33 @@ class Task_Group:
         results = connectToMySQL(cls.schema).query_db(query,data)
         if len(results) > 0:
             return cls(results[0])
+        #else
+        return False
+    
+    @classmethod
+    def read_one_with_version_with_project(cls,data):
+        query = "SELECT * FROM task_groups JOIN versions ON task_groups.version_id=versions.id JOIN projects ON versions.project_id=projects.id WHERE task_groups.id=%(id)s;"
+        results = connectToMySQL(cls.schema).query_db(query,data)
+        if len(results) > 0:
+            task_group = cls(results[0])
+            version_data = {
+                'id':results[0]['versions.id'],
+                'name':results[0]['versions.name'],
+                'project_id':results[0]['project_id'],
+                'end_date':results[0]['versions.end_date'],
+                'created_at':results[0]['versions.created_at'],
+                'updated_at':results[0]['versions.updated_at'],
+            }
+            task_group.version = Version(version_data)
+            project_data = {
+                'id':results[0]['projects.id'],
+                'name':results[0]['projects.name'],
+                'owner_user_id':results[0]['owner_user_id'],
+                'created_at':results[0]['projects.created_at'],
+                'updated_at':results[0]['projects.updated_at']
+            }
+            task_group.version.project = Project(project_data)
+            return task_group
         #else
         return False
     

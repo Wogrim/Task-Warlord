@@ -8,79 +8,23 @@
     <title>Task Group View</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        .max-vh-50 {
-            max-height: 50vh;
-        }
-
-        .bg-theme1 {
-            background-color: lightsteelblue;
-        }
-
-        .bg-lightred {
-            background-color: #f8cecc;
-        }
-
-        .bg-lightyellow {
-            background-color: #fff2cc;
-        }
-
-        .bg-lightgreen {
-            background-color: #d5e8d4;
-        }
-
-        table {
-            width: 100%;
-            table-layout: fixed;
-        }
-
-        td div {
-            height: 10px;
-        }
-
-        th {
-            text-align: center;
-        }
-
-        a {
-            text-decoration: none;
-            color: black;
-        }
-
-        a :hover {
-            color: black;
-        }
-
-        div.rounded-circle.bg-danger {
-            border: 1px solid black;
-            height: 14px;
-            width: 14px;
-            float: right;
-        }
-    </style>
+    <link rel="stylesheet" href="{{url_for('static',filename='common.css')}}">
 </head>
 
 <body class="bg-theme1">
     <div class="col-11 mx-auto d-flex justify-content-between align-items-center py-3">
         <ul class="list-inline mb-0">
             <li class="list-inline-item">
-                <!-- current project name -->
-                <a href="#">
-                    <h2>Cool Website 1</h2>
+                <a href="/projects/{{task_group.version.project_id}}">
+                    <h2>{{task_group.version.project.name}}</h2>
                 </a>
             </li>
             <li class="list-inline-item">
                 <h2>\</h2>
             </li>
             <li class="list-inline-item">
-                <!-- current version name -->
-                <a href="#">
-                    <h2>V5</h2>
+                <a href="/versions/{{task_group.version_id}}">
+                    <h2>{{task_group.version.name}}</h2>
                 </a>
             </li>
             <li class="list-inline-item">
@@ -88,8 +32,8 @@
             </li>
             <li class="list-inline-item">
                 <!-- current task group name -->
-                <a href="#">
-                    <h2>Database & Models</h2>
+                <a href="/task_groups/{{task_group.id}}">
+                    <h2>{{task_group.name}}</h2>
                 </a>
             </li>
         </ul>
@@ -102,8 +46,7 @@
                 <h2 class="text-danger">4 Days</h2>
             </li>
             <li class="list-inline-item">
-                <!-- logout link -->
-                <a href="#" class="btn btn-secondary">Logout</a>
+                <a href="/logout" class="btn btn-secondary">Logout</a>
             </li>
         </ul>
     </div>
