@@ -27,7 +27,7 @@ def _task_group_view(id):
     if not Project.is_participant(participant_data):
         return redirect("/projects")
     #else
-    #get all the tasks for this task_group
+    #get all the tasks for this task_group with assigned user
     task_data = {'task_group_id':id}
-    tasks = Task.read_all_in_task_group(task_data)
+    tasks = Task.read_all_in_task_group_with_assigned_user(task_data)
     return render_template("task_group_view.html",task_group=task_group,tasks=tasks)

@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `task_warlord_schema`.`tasks` (
   `title` VARCHAR(255) NULL,
   `task_group_id` INT NOT NULL,
   `priority` TINYINT NULL,
-  `assigned_user_id` INT NOT NULL,
+  `assigned_user_id` INT NULL,
   `status` TINYINT NULL,
   `progress` TINYINT NULL,
   `description` TEXT NULL,

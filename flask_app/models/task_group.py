@@ -89,5 +89,4 @@ class Task_Group:
         if progress < 0 or progress > 100:
             is_valid = False
             flash("progress must be from 0 to 100")
-        #TODO: make sure the person editing is the project owner
         return is_valid
