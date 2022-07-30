@@ -42,6 +42,15 @@ class User:
         for result in results:
             users.append(cls(result))
         return users
+    
+    @classmethod
+    def read_all_invited_to_project(cls,data):
+        query = "SELECT * FROM users JOIN projects_invite_users ON users.id=projects_invite_users.user_id WHERE project_id=%(project_id)s;"
+        results = connectToMySQL(cls.schema).query_db(query,data)
+        users = []
+        for result in results:
+            users.append(cls(result))
+        return users
 
     @classmethod
     def create(cls,data):

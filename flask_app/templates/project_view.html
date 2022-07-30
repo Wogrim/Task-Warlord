@@ -15,47 +15,83 @@
     <div class="col-11 mx-auto d-flex justify-content-between align-items-center py-3">
         <ul class="list-inline mb-0">
             <li class="list-inline-item">
-                <a href="/projects/{{project.id}}"><h2>{{project.name}}</h2></a>
+                <a href="/projects/{{project.id}}">
+                    <h2>{{project.name}}</h2>
+                </a>
             </li>
         </ul>
         <ul class="list-inline mb-0">
-            <li>
+            <li class="list-inline-item">
+                <a href="/projects" class="btn btn-dark">Home</a>
+            </li>
+            <li class="list-inline-item">
                 <a href="/logout" class="btn btn-secondary">Logout</a>
             </li>
         </ul>
     </div>
 
     <div class="col-11 mx-auto">
-        <div class="col-5">
-            <form action="#" class="mb-2">
-                <div class="input-group">
-                    <label for="project_name" class="input-group-text w-50">Rename Project:</label>
-                    <input type="text" name="project_name" id="project_name" required class="form-control" value="{{project.name}}">
-                </div>
-            </form>
-            <div class="row">
-                <div class="col-6">
-                    <h4 class="text-center">Versions</h4>
-                    <a href="/projects/{{project.id}}/create_version" class="btn btn-success w-100 mb-2">+</a>
-                    <div class="list-group overflow-auto text-center" style="max-height: 50vh;">
-                        {% for version in versions %}
-                        <a href="/versions/{{version.id}}" class="list-group-item list-group-item-action list-group-item-warning">{{version.name}}</a>
-                        {% endfor %}
+        {% if session['user_id'] == project.owner_user_id %}
+        <div class="row">
+            <div class="col-6">
+                <form action="/projects/{{project.id}}/edit" class="mb-2" method="post">
+                    <div class="input-group">
+                        <label for="name" class="input-group-text w-50">Rename Project:</label>
+                        <input type="text" name="name" id="name" required class="form-control" value="{{project.name}}">
                     </div>
-                </div>
-                <div class="col-6">
-                    <h4 class="text-center">Participants</h4>
-                    <!-- TODO: invite participants form/page -->
-                    <a href="#" class="btn btn-success w-100 mb-2">+</a>
-                    <div class="list-group overflow-auto text-center" style="max-height: 50vh;">
-                        {% for participant in participants %}
-                        <li class="list-group-item list-group-item-secondary">{{"You" if session['user_id'] == participant.id else participant.first_name + " " + participant.last_name}}</li>
-                        {% endfor %}
-                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
 
+        <div class="row">
+            <div class="col-4">
+                <h4 class="text-center">Versions</h4>
+                {% if session['user_id'] == project.owner_user_id %}
+                <a href="/projects/{{project.id}}/create_version" class="btn btn-success w-100 mb-2">+</a>
+                {% endif %}
+                <div class="list-group overflow-auto text-center" style="max-height: 50vh;">
+                    {% for version in versions %}
+                    <a href="/versions/{{version.id}}"
+                        class="list-group-item list-group-item-action list-group-item-warning">{{version.name}}</a>
+                    {% endfor %}
                 </div>
             </div>
-
+            <div class="col-4">
+                <h4 class="text-center">Participants</h4>
+                <div class="list-group overflow-auto text-center" style="max-height: 50vh;">
+                    {% for participant in participants %}
+                    <li class="list-group-item list-group-item-secondary">{{"You" if session['user_id'] ==
+                        participant.id else participant.first_name + " " + participant.last_name}}</li>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if session['user_id'] == project.owner_user_id %}
+            <div class="col-4">
+                <form action="/projects/{{project.id}}/invite" class="mb-2" method="post">
+                    <h4 class="text-center">Invite Participant</h4>
+                    <input type="email" name="email" id="email" required class="form-control" placeholder="email">
+                </form>
+                {% with invite_msgs = get_flashed_messages(category_filter=['invite']) %}
+                {% if invite_msgs %}
+                <div class="bg-lightred">
+                    <ul>
+                        {% for msg in invite_msgs %}
+                        <li>{{msg}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endwith %}
+                <h4 class="text-center">Pending Invites</h4>
+                <div class="list-group overflow-auto text-center" style="max-height: 50vh;">
+                    {% for invite in invites %}
+                    <li class="list-group-item list-group-item-secondary">{{"You" if session['user_id'] ==
+                        invite.id else invite.first_name + " " + invite.last_name}}</li>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 </body>

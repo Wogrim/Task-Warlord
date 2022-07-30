@@ -41,9 +41,6 @@
                     <h2>{{version.name}}</h2>
                 </a>
             </li>
-            <li class="list-inline-item">
-                <a href="/versions/{{version.id}}/create_task_group" class="btn btn-success">+</a>
-            </li>
         </ul>
         <div>
             <input type="text" name="search" id="search" placeholder="Search">
@@ -54,32 +51,45 @@
                 <h2 class="text-danger">7 Days</h2>
             </li>
             <li class="list-inline-item">
+                <a href="/projects" class="btn btn-dark">Home</a>
+            </li>
+            <li class="list-inline-item">
                 <a href="/logout" class="btn btn-secondary">Logout</a>
             </li>
         </ul>
     </div>
 
-    <div class="col-11 mx-auto">
+    <div class="col-8 mx-auto">
+        <div class="d-flex align-items-top">
+            <h2>Task Groups: </h2>
+            <a href="/versions/{{version.id}}/create_task_group" class="btn btn-success mb-2 ms-2">+</a>
+        </div>
         <table class="table table-light">
             <thead>
                 <tr>
+                    <th>link</th>
                     <th>name</th>
                     <th>start date</th>
                     <th>end date</th>
                     <th>progress</th>
                     <th>color</th>
+                    <th>edit</th>
                 </tr>
             </thead>
             <tbody>
                 {% for task_group in task_groups %}
                 <tr>
-                    <td><a href="/task_groups/{{task_group.id}}"
-                            class="list-group-item list-group-item-action list-group-item-warning">{{task_group.name}}</a>
-                    </td>
-                    <td>{{task_group.start_date}}</td>
-                    <td>{{task_group.end_date}}</td>
-                    <td>{{task_group.progress}}</td>
-                    <td style="background-color:{{task_group.color}};">{{task_group.color}}</td>
+                    <form action="/task_groups/{{task_group.id}}/edit" method="post">
+                        <td><a href="/task_groups/{{task_group.id}}"
+                                class="list-group-item list-group-item-action list-group-item-warning text-center">GO</a>
+                        </td>
+                        <td><input type="text" name="name" value="{{task_group.name}}"></td>
+                        <td><input type="date" name="start_date" value="{{task_group.start_date}}"></td>
+                        <td><input type="date" name="end_date" value="{{task_group.end_date}}"></td>
+                        <td><input type="range" name="progress" value="{{task_group.progress}}"></td>
+                        <td><input type="color" name="color" value="{{task_group.color}}"></td>
+                        <td><button type="submit" class="btn btn-warning">save</button></td>
+                    </form>
                 </tr>
                 {% endfor %}
             </tbody>

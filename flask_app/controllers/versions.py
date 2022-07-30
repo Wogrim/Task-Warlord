@@ -23,7 +23,6 @@ def _create_version(id):
     #else
     #make sure this user is the owner of this project
     if session['user_id'] != project.owner_user_id:
-        flash("you must be the owner of this project to create a new version")
         return redirect(f"/projects/{id}")
     #else
     data = {

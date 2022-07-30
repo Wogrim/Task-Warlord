@@ -19,23 +19,50 @@
             </li>
         </ul>
         <ul class="list-inline mb-0">
-            <li>
+            <li class="list-inline-item">
+                <a href="/projects" class="btn btn-dark">Home</a>
+            </li>
+            <li class="list-inline-item">
                 <a href="/logout" class="btn btn-secondary">Logout</a>
             </li>
         </ul>
     </div>
 
     <div class="col-11 mx-auto">
-        <div class="col-5">
-            <a href="/projects/create" class="btn btn-success w-100 mb-2">+</a>
-            <div class="list-group overflow-auto text-center" style="max-height:50vh;">
-                <!-- Actual Projects Here -->
-                {% for project in owned_projects %}
-                <a href="/projects/{{project.id}}" class="list-group-item list-group-item-action list-group-item-warning">{{project.name}}</a>
-                {% endfor %}
-                {% for project in owned_projects %}
-                <a href="/projects/{{project.id}}" class="list-group-item list-group-item-action list-group-item-info">{{project.name}}</a>
-                {% endfor %}
+        <div class="row">
+            <div class="col-4">
+                <h2>Owner of:</h2>
+                <a href="/projects/create" class="btn btn-success w-100 mb-2">+</a>
+                <div class="list-group overflow-auto text-center" style="max-height:50vh;">
+                    {% for project in owned_projects %}
+                    <a href="/projects/{{project.id}}" class="list-group-item list-group-item-action list-group-item-warning">{{project.name}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-4">
+                <h2>Participant of:</h2>
+                <div class="list-group overflow-auto text-center" style="max-height:50vh;">
+                    {% for project in participated_projects %}
+                    {% if session['user_id'] == project.owner_user_id %}
+                    <a href="/projects/{{project.id}}" class="list-group-item list-group-item-action list-group-item-warning">{{project.name}}</a>
+                    {% else %}
+                    <a href="/projects/{{project.id}}" class="list-group-item list-group-item-action list-group-item-info">{{project.name}}</a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-4">
+                <h2>Invited to:</h2>
+                <div class="list-group overflow-auto text-center" style="max-height:50vh;">
+                    {% for project in invited_projects %}
+                    <div class="list-group-item list-group-item-action list-group-item-info d-flex justify-content-end">{{project.name}}
+                        <a href="/projects/{{project.id}}/accept_invite" class="btn btn-success rounded-0 h-100">+</a>
+                        <a href="/projects/{{project.id}}/decline_invite" class="btn btn-secondary rounded-0 h-100">-</a>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

@@ -38,8 +38,10 @@
         </ul>
         <ul class="list-inline mb-0">
             <li class="list-inline-item">
-                <!-- current task group deadline -->
-                <h2 class="text-danger">4 Days</h2>
+                <h2 class="text-danger">{{(task_group.end_date - task_group.end_date.today()).days}} Days</h2>
+            </li>
+            <li class="list-inline-item">
+                <a href="/projects" class="btn btn-dark">Home</a>
             </li>
             <li class="list-inline-item">
                 <a href="/logout" class="btn btn-secondary">Logout</a>

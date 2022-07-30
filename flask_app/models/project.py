@@ -31,6 +31,11 @@ class Project:
         return connectToMySQL(cls.schema).query_db(query,data)
 
     @classmethod
+    def add_invite(cls,data):
+        query = "INSERT INTO projects_invite_users (project_id,user_id,created_at) VALUES (%(project_id)s,%(user_id)s,NOW());"
+        return connectToMySQL(cls.schema).query_db(query,data)
+
+    @classmethod
     def create(cls,data):
         query = "INSERT INTO projects (name,owner_user_id,created_at,updated_at) VALUES (%(name)s,%(owner_user_id)s,NOW(),NOW());"
         project_id = connectToMySQL(cls.schema).query_db(query,data)
@@ -56,25 +61,28 @@ class Project:
             projects.append(cls(result))
         return projects
     
+    @classmethod
+    def read_all_invited_to_user(cls,data):
+        query = "SELECT * FROM projects JOIN projects_invite_users ON projects.id=projects_invite_users.project_id WHERE projects_invite_users.user_id=%(user_id)s;"
+        results = connectToMySQL(cls.schema).query_db(query,data)
+        projects = []
+        for result in results:
+            projects.append(cls(result))
+        return projects
+    
     # update primarily to change the name of the project, but perhaps transfer ownership later
     @classmethod
     def update(cls,data):
-        query = "UPDATE projects SET name=%(name)s,owner_user_id=%(owner_user_id)s,updated_at=NOW() WHERE id=%(id)s;"
+        query = "UPDATE projects SET name=%(name)s,updated_at=NOW() WHERE id=%(id)s;"
         return connectToMySQL(cls.schema).query_db(query,data)
     
     # validate to be used before creating and updating a project
-    @classmethod
-    def validate(cls,data):
+    @staticmethod
+    def validate(data):
         is_valid = True
         if len(data['name']) < 5 or len(data['name']) > 45:
             is_valid = False
             flash("project name must be 5 to 45 characters long")
-        #make sure owner being set is a valid user
-        user_data = {'id':data['owner_user_id']}
-        usr = user.User.read_one_by_id(user_data)
-        if not usr:
-            is_valid = False
-            flash("not a valid user id for project owner")
         return is_valid
     
     # invite_user will invite a specified user to the specified project
@@ -96,6 +104,22 @@ class Project:
         results = connectToMySQL(cls.schema).query_db(query,data)
         return len(results)>0
 
+    @classmethod
+    def delete_invite(cls,data):
+        query = "DELETE FROM projects_invite_users WHERE project_id=%(project_id)s AND user_id=%(user_id)s;"
+        connectToMySQL(cls.schema).query_db(query,data)
+        return
+    
+    @classmethod
+    def accept_invite(cls,data):
+        if not cls.is_invited(data):
+            flash("this invite does not exist")
+            return False
+        #else
+        cls.delete_invite(data)
+        cls.add_participant(data)
+        return True
+
     # validate invite before it is sent
     # expects project_id, invitee's email, sender's user_id
     @classmethod
@@ -104,26 +128,22 @@ class Project:
         #make sure the project exists
         project_data = {'id':data['project_id']}
         project = cls.read_one_by_id(project_data)
-        if project:
-            #make sure the invite is sent by the project owner
-            if project.owner_user_id != data['user_id']:
-                is_valid = False
-                flash("only the project owner can send invites")
-        else:
+        if not project:
             is_valid = False
-            flash("project does not exist")
+            flash("project does not exist","invite")
         #make sure the invited person exists
-        user = user.User.read_one_by_email(data)
-        if user:
+        user_data = {'id':data['user_id']}
+        user_x = user.User.read_one_by_id(user_data)
+        if user_x:
             #make sure the invited person isn't already a project participant or already pending invite
-            participant_data = {'project_id':data['project_id'],'user_id':user.id}
+            participant_data = {'project_id':data['project_id'],'user_id':user_x.id}
             if cls.is_participant(participant_data):
                 is_valid = False
-                flash("that user is already a participant in this project")
+                flash("that user is already a participant in this project","invite")
             elif cls.is_invited(participant_data):
                 is_valid = False
-                flash("that user already has a pending invite to this project")
+                flash("that user already has a pending invite to this project","invite")
         else:
             is_valid = False
-            flash("could not find specified user")
+            flash("could not find specified user","invite")
         return is_valid
